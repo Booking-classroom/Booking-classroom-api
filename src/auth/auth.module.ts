@@ -10,8 +10,8 @@ import { ConfigModule } from '@nestjs/config';
     UserModule,
     JwtModule.register({
       global: true,
-      secret: process.env.JWT_SECRET || 'defaultSecret', // Укажите секретный ключ
-      signOptions: { expiresIn: '1h' }, // Corrected typo
+      secret: process.env.JWT_SECRET || 'defaultSecret',
+      signOptions: { expiresIn: '1h' },
     }),
   ],
   controllers: [AuthController],

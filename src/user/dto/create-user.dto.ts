@@ -1,4 +1,3 @@
-//swagger
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
@@ -11,4 +10,3 @@ export class CreateUserDto {
   })
   password: string;
 }
-//

@@ -4,7 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  //
+  
   const config = new DocumentBuilder()
     .setTitle('TODO API nestjs')
     .setDescription('The tzsk API description')
@@ -17,6 +17,6 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, documentFactory);
 
   app.setGlobalPrefix('api');
-  await app.listen(process.env.PORT ?? 8000);
+  await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

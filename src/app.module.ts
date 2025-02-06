@@ -30,6 +30,7 @@ import { AuthModule } from './auth/auth.module';
     MaterialModule,
     ReservationModule,
     ReservationMaterialModule,
+    UserModule,
     AuthModule,
   ],
   controllers: [AppController],

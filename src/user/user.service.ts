@@ -7,55 +7,47 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
-  getUser(id: any) {
-    throw new Error('Method not implemented.');
-  }
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
   async create(
-    createTaskDto: CreateUserDto,
-  ): Promise<Omit<UserEntity, 'password'>> {
-    const user = await this.userRepository.save(createTaskDto);
+    createUserDto: CreateUserDto,
+  ) {
+    const user = this.userRepository.create(createUserDto);
 
-    // Return a new object excluding 'password'
-    const { password, ...userWithoutPassword } = user;
+    await this.userRepository.save(user);
 
-    return userWithoutPassword;
+    return await this.userRepository.save(user);;
   }
 
   findAll(): Promise<UserEntity[]> {
-    return this.userRepository.find();
-  }
+    const users = this.userRepository.find({
+      select: ['id', 'email'],
+    });
 
-  async findOneByEmail(email: string): Promise<UserEntity> {
-    // Recherche d'un utilisateur par email
-    const user = await this.userRepository
-      .createQueryBuilder('user')
-      .where('user.email = :email', { email })
-      // include password
-      .addSelect('user.password')
-      .getOne();
-
-    console.log('findOneByEmail : ', user);
-
-    // Vérifier si l'utilisateur n'existe pas
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    // Retourner l'utilisateur trouvé
-    return user;
+    return users;
   }
 
   async findOneById(id: number): Promise<UserEntity> {
     const user = await this.userRepository
       .createQueryBuilder('user')
       .where('user.id = :id', { id })
-      //exclide password
-      .addSelect('user.password', 'password')
+      .addSelect(['user.id', 'user.email'])
+      .getOne();
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
+  }
+
+  async findOneByEmail(email: string): Promise<UserEntity> {
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email })
+      .addSelect(['user.id', 'user.email', 'user.password'])
       .getOne();
 
     if (!user) {
@@ -65,22 +57,17 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<UserEntity> {
-    const user = await this.findOneById(id);
-    const updateUser = {
-      ...user,
-      ...updateUserDto,
-    };
 
-    await this.userRepository.update(id, updateUser);
-    //update
-    return updateUser;
+    this.userRepository.update(id, updateUserDto);
+
+    return this.findOneById(id);
   }
 
   async remove(id: number) {
     await this.findOneById(id);
 
-    return this.userRepository.delete({
-      id,
-    });
+    const user = await this.userRepository.softDelete(id);
+    return user;
+
   }
 }

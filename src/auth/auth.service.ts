@@ -15,12 +15,10 @@ export class AuthService {
   async signin(signinDto: SigninDto) {
     const user = await this.userService.findOneByEmail(signinDto.email);
 
-    console.log('user :', user);
-    console.log('signinDto.password : ', signinDto.password);
-    const isPasswordCorrect = await bcrypt.compare(
-      signinDto.password,
-      user.password,
-    );
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    const isPasswordCorrect = await bcrypt.compare(signinDto.password, user.password);  
 
     if (!isPasswordCorrect) {
       throw new UnauthorizedException('Invalid credentials');
@@ -28,7 +26,7 @@ export class AuthService {
     const payload = {
       id: user.id,
     };
-    const access_token = await this.jwtService.sign(payload);
+    const access_token = this.jwtService.sign(payload);
 
     return { access_token };
   }

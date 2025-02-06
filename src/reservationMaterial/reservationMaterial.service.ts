@@ -82,7 +82,7 @@ async create(createReservationMaterialDto: CreateReservationMaterialDto): Promis
   async remove(id: number): Promise<any> {
     await this.findOneById(id);
 
-    const task = this.reservationMaterialRepository.softDelete(id);
-    return task;
+    const reservationMateriel = this.reservationMaterialRepository.softDelete(id);
+    return reservationMateriel;
   }
 }

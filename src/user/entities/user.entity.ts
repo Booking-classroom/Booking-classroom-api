@@ -1,14 +1,13 @@
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
+import { TimestampEntity } from '../../Generic/timestamp.entity';
+
 @Entity('user')
-export class UserEntity {
+export class UserEntity extends TimestampEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -17,13 +16,4 @@ export class UserEntity {
 
   @Column({ type: 'varchar', length: 255, nullable: false, select: false })
   password: string;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date;
 }
