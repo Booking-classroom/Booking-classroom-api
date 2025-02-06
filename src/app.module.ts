@@ -7,9 +7,8 @@ import { ClassroomModule } from './classroom/classroom.module';
 import { MaterialModule } from './material/material.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { ReservationMaterialModule } from './reservationMaterial/reservationMaterial.module';
-
-
-
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -31,6 +30,7 @@ import { ReservationMaterialModule } from './reservationMaterial/reservationMate
     MaterialModule,
     ReservationModule,
     ReservationMaterialModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
