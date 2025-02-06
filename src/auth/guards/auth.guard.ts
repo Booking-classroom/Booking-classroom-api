@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate {
     } catch {
       throw new UnauthorizedException();
     }
-    return true;
+    return true;  
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {

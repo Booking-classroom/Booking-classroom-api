@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { ReservationMaterialService } from './reservationMaterial.service';
 import { CreateReservationMaterialDto } from './dto/create-reservationMaterial.dto';
 import { UpdateReservationMaterialDto } from './dto/update-reservationMaterial.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 @Controller('reservationMaterial')
+@UseGuards(AuthGuard)
 export class ReservationMaterialController {
   constructor(private readonly reservationMaterialService: ReservationMaterialService) {}
 
