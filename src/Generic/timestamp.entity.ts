@@ -1,12 +1,13 @@
-import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
+import { CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
 export class TimestampEntity {
-  @CreateDateColumn()
-  createAt: Date;
 
-  @UpdateDateColumn()
-  updateAt: Date;
+    @CreateDateColumn()
+    createdAt: Date;
 
-  @DeleteDateColumn()
-  deleteAt: Date;
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    @DeleteDateColumn()
+    deletedAt: Date;
 }
