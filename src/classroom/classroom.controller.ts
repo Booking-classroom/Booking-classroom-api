@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param,Query, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param,Query, Delete, UseGuards } from '@nestjs/common';
 import { ClassroomService } from './classroom.service';
 import { CreateClassroomDto } from './dto/create-classroom.dto';
 import { UpdateClassroomDto } from './dto/update-classroom.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { ClassroomEntity } from './entities/classroom.entity';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 @Controller('classroom')
+@UseGuards(AuthGuard)
 export class ClassroomController {
   constructor(private readonly classroomService: ClassroomService) {}
 
