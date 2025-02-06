@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { TimestampEntity } from "../../Generic/timestamp.entity";
 import { ClassroomEntity } from "../../classroom/entities/classroom.entity";
+import { UserEntity } from "src/user/entities/user.entity";
 
 export enum Etat {
     CONFIRMEE = 'confirmée',
@@ -15,8 +16,8 @@ export class ReservationEntity extends TimestampEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'int', nullable: false })  
-    user: number;
+    @ManyToOne(() => UserEntity, user => user.id)
+    user: UserEntity;
 
     @ManyToOne(() => ClassroomEntity, classroom => classroom.id)
     classroom: ClassroomEntity;

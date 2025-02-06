@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ReservationEntity } from './entities/reservation.entity';
 import { Repository } from 'typeorm';
 import { ClassroomEntity } from 'src/classroom/entities/classroom.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class ReservationService {
@@ -13,6 +14,8 @@ export class ReservationService {
       private readonly reservationRepository: Repository<ReservationEntity>,
       @InjectRepository(ClassroomEntity)
       private readonly classroomRepository: Repository<ClassroomEntity>,
+      @InjectRepository(UserEntity)
+      private readonly userRepository: Repository<UserEntity>,
     ) {}
 
     
@@ -21,10 +24,16 @@ export class ReservationService {
       if (!classroom) {
         throw new NotFoundException('Classroom not found');
       }
+
+      const user = await this.userRepository.findOne({ where: { id: createReservationDto.user } });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
     
       const reservation = this.reservationRepository.create({
         ...createReservationDto,
         classroom,
+        user,
       });
     
       return this.reservationRepository.save(reservation);
@@ -66,10 +75,16 @@ export class ReservationService {
       if (!classroom) {
         throw new NotFoundException('Classroom not found');
       }
+
+      const user = await this.userRepository.findOne({ where: { id: updateReservationDto.user } });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
   
     this.reservationRepository.update(id, {
       ...updateReservationDto,
       classroom,
+      user,
     });
   
     return this.findOneById(id);
