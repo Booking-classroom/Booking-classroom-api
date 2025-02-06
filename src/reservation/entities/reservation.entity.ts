@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { TimestampEntity } from "../../Generic/timestamp.entity";
+import { ClassroomEntity } from "../../classroom/entities/classroom.entity";
 
 export enum Etat {
     CONFIRMEE = 'confirmée',
@@ -15,19 +16,16 @@ export class ReservationEntity extends TimestampEntity {
     id: number;
 
     @Column({ type: 'int', nullable: false })  
-    id_user: number;
+    user: number;
 
-    @Column({ type: 'int', nullable: false })  
-    id_classroom: number;
+    @ManyToOne(() => ClassroomEntity, classroom => classroom.id)
+    classroom: ClassroomEntity;
 
     @Column({ type: 'date', nullable: false })
-    date: Date;
+    start_datetime: Date;
 
-    @Column({ type: 'time', nullable: false })
-    start_time: string;
-
-    @Column({ type: 'time', nullable: false })
-    end_time: string;
+    @Column({ type: 'date', nullable: false })
+    end_datetime: Date;
 
     @Column({ type: 'enum', enum: Etat, nullable: false })
     etat: Etat;

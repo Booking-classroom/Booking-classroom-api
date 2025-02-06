@@ -3,19 +3,16 @@ import { Etat } from '../entities/reservation.entity';
 
 export class CreateReservationDto {
     @ApiProperty()
-    id_user: number;
+    user: number;
 
     @ApiProperty()
-    id_classroom: number;
+    classroom: number;
 
     @ApiProperty()
-    date: Date;
+    start_datetime: Date;
 
     @ApiProperty()
-    start_time: string;
-
-    @ApiProperty()
-    end_time: string;
+    end_datetime: Date;
 
     @ApiProperty({ enum: Etat })
     etat: Etat;

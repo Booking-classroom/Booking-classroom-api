@@ -37,19 +37,6 @@ async create(createMaterialDto: CreateMaterialDto): Promise<MaterialEntity> {
     return material;
   }
 
-  async findOneByName(name: string): Promise<MaterialEntity> {
-    const material = await  this.materialRepository
-      .createQueryBuilder('material')
-      .where('material.name = :name', {name})
-      .getOne();
-
-      if (!material) {
-        throw new NotFoundException('Material not found');
-      }
-
-    return material;
-  }
-
   update(id: number, updateMaterialDto: UpdateMaterialDto): Promise<MaterialEntity> {
 
     this.materialRepository.update(id, updateMaterialDto);

@@ -18,5 +18,4 @@ export class ClassroomEntity extends TimestampEntity{
     @Column({type: 'boolean', nullable: false, default: true})
     isAvailable: boolean;
 
-
 }

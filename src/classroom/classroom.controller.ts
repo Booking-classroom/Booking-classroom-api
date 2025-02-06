@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param,Query, Delete } from '@nestjs/common';
 import { ClassroomService } from './classroom.service';
 import { CreateClassroomDto } from './dto/create-classroom.dto';
 import { UpdateClassroomDto } from './dto/update-classroom.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ClassroomEntity } from './entities/classroom.entity';
 
 @Controller('classroom')
 export class ClassroomController {
@@ -24,9 +25,10 @@ export class ClassroomController {
     return this.classroomService.findOneById(+id);
   }
 
-  @Get(':isAvailable')
-  findByAvailability(@Param('isAvailable') isAvailable: boolean) {
-    return this.classroomService.findByAvailability(isAvailable);
+  @Get('availability/:isAvailable')
+  async findByAvailability(@Param('isAvailable') isAvailable: string): Promise<ClassroomEntity[]> {
+    const isAvailableBool = isAvailable === 'true';
+    return this.classroomService.findByAvailability(isAvailableBool);
   }
 
   @ApiBody({ type: UpdateClassroomDto })

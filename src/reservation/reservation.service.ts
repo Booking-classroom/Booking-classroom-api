@@ -4,20 +4,31 @@ import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ReservationEntity } from './entities/reservation.entity';
 import { Repository } from 'typeorm';
+import { ClassroomEntity } from 'src/classroom/entities/classroom.entity';
 
 @Injectable()
 export class ReservationService {
     constructor(
       @InjectRepository(ReservationEntity)
       private readonly reservationRepository: Repository<ReservationEntity>,
+      @InjectRepository(ClassroomEntity)
+      private readonly classroomRepository: Repository<ClassroomEntity>,
     ) {}
 
     
-async create(createReservationDto: CreateReservationDto): Promise<ReservationEntity> {
-  const reservation = await this.reservationRepository.save(createReservationDto);
-
-  return reservation;
-}
+    async create(createReservationDto: CreateReservationDto): Promise<ReservationEntity> {
+      const classroom = await this.classroomRepository.findOne({ where: { id: createReservationDto.classroom } });
+      if (!classroom) {
+        throw new NotFoundException('Classroom not found');
+      }
+    
+      const reservation = this.reservationRepository.create({
+        ...createReservationDto,
+        classroom,
+      });
+    
+      return this.reservationRepository.save(reservation);
+    }
 
   findAll(): Promise<ReservationEntity[]> {
     const tasksList = this.reservationRepository.find();
@@ -50,13 +61,19 @@ async create(createReservationDto: CreateReservationDto): Promise<ReservationEnt
     return reservation;
   }
 
-  update(id: number, updateReservationDto: UpdateReservationDto): Promise<ReservationEntity> {
-
-    this.reservationRepository.update(id, updateReservationDto);
-
+  async update(id: number, updateReservationDto: UpdateReservationDto): Promise<ReservationEntity> {
+      const classroom = await this.classroomRepository.findOne({ where: { id: updateReservationDto.classroom } });
+      if (!classroom) {
+        throw new NotFoundException('Classroom not found');
+      }
+  
+    this.reservationRepository.update(id, {
+      ...updateReservationDto,
+      classroom,
+    });
+  
     return this.findOneById(id);
   }
-
   async remove(id: number): Promise<any> {
     await this.findOneById(id);
 

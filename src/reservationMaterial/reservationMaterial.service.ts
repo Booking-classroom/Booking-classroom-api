@@ -4,19 +4,41 @@ import { UpdateReservationMaterialDto } from './dto/update-reservationMaterial.d
 import { InjectRepository } from '@nestjs/typeorm';
 import { ReservationMaterialEntity } from './entities/reservationMaterial.entity';
 import { Repository } from 'typeorm';
+import { ReservationEntity } from 'src/reservation/entities/reservation.entity';
+import { MaterialEntity } from 'src/material/entities/material.entity';
 
 @Injectable()
 export class ReservationMaterialService {
     constructor(
       @InjectRepository(ReservationMaterialEntity)
       private readonly reservationMaterialRepository: Repository<ReservationMaterialEntity>,
+      @InjectRepository(ReservationEntity)
+      private readonly reservationRepository: Repository<ReservationEntity>,
+      @InjectRepository(MaterialEntity)
+      private readonly materialRepository: Repository<MaterialEntity>,
     ) {}
+    
 
     
 async create(createReservationMaterialDto: CreateReservationMaterialDto): Promise<ReservationMaterialEntity> {
-  const reservationMaterial = await this.reservationMaterialRepository.save(createReservationMaterialDto);
 
-  return reservationMaterial;
+  const reservation = await this.reservationRepository.findOne({ where: { id: createReservationMaterialDto.reservation } });
+  if (!reservation) {
+    throw new NotFoundException('Reservation not found');
+  }
+
+  const material = await this.materialRepository.findOne({ where: { id: createReservationMaterialDto.material } });
+  if (!material) {
+    throw new NotFoundException('Material not found');
+  }
+
+  const reservationMaterial = this.reservationMaterialRepository.create({
+    ...createReservationMaterialDto,
+    reservation: reservation.id,
+    material: material.id,
+  });
+
+  return this.reservationMaterialRepository.save(reservationMaterial);
 }
 
   findAll(): Promise<ReservationMaterialEntity[]> {

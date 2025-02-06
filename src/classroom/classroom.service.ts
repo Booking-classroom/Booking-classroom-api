@@ -42,7 +42,6 @@ async create(createClassroomDto: CreateClassroomDto): Promise<ClassroomEntity> {
     if (!classroom) {
       throw new NotFoundException('Classroom not found');
     }
-
     return classroom;
   }
 

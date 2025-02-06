@@ -4,6 +4,11 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import  { ConfigModule } from '@nestjs/config';
 import { ClassroomModule } from './classroom/classroom.module';
+import { MaterialModule } from './material/material.module';
+import { ReservationModule } from './reservation/reservation.module';
+import { ReservationMaterialModule } from './reservationMaterial/reservationMaterial.module';
+
+
 
 
 @Module({
@@ -23,6 +28,9 @@ import { ClassroomModule } from './classroom/classroom.module';
       entities: [__dirname + '/**/*.entity.{ts,js}'],
     }),
     ClassroomModule,
+    MaterialModule,
+    ReservationModule,
+    ReservationMaterialModule,
   ],
   controllers: [AppController],
   providers: [AppService],
