@@ -15,11 +15,15 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async create(createTaskDto: CreateUserDto): Promise<UserEntity> {
+  async create(
+    createTaskDto: CreateUserDto,
+  ): Promise<Omit<UserEntity, 'password'>> {
     const user = await this.userRepository.save(createTaskDto);
-    delete user.password;
 
-    return user;
+    // Return a new object excluding 'password'
+    const { password, ...userWithoutPassword } = user;
+
+    return userWithoutPassword;
   }
 
   findAll(): Promise<UserEntity[]> {
