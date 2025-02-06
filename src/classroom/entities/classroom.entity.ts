@@ -7,9 +7,16 @@ export class ClassroomEntity extends TimestampEntity{
     id: number;
 
     @Column({type: 'varchar', length: 255, nullable: false})
-    email: string;
+    name: string;
 
-    @Column({type: 'varchar', length: 255, nullable: false})
-    password: string;
+    @Column({type: 'text', nullable: false})
+    description: string;
+
+    @Column({type: 'int', nullable: false})
+    capacity: number;
+
+    @Column({type: 'boolean', nullable: false, default: true})
+    isAvailable: boolean;
+
 
 }

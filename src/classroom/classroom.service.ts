@@ -37,13 +37,8 @@ async create(createClassroomDto: CreateClassroomDto): Promise<ClassroomEntity> {
     return classroom;
   }
 
-  async findOneByEmail(email: string): Promise<ClassroomEntity> {
-    const classroom = await this.classroomRepository
-      .createQueryBuilder('classroom')
-      .where('classroom.email = :email', {email})
-      .addSelect('classroom.password')
-      .getOne();
-
+  async findByAvailability(isAvailable: boolean): Promise<ClassroomEntity[]> {
+    const classroom = await this.classroomRepository.find({where: {isAvailable}});
     if (!classroom) {
       throw new NotFoundException('Classroom not found');
     }

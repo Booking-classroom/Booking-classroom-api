@@ -24,9 +24,9 @@ export class ClassroomController {
     return this.classroomService.findOneById(+id);
   }
 
-  @Get(':email')
-  findOneByEmail(@Param('email') email: string) {
-    return this.classroomService.findOneByEmail(email);
+  @Get(':isAvailable')
+  findByAvailability(@Param('isAvailable') isAvailable: boolean) {
+    return this.classroomService.findByAvailability(isAvailable);
   }
 
   @ApiBody({ type: UpdateClassroomDto })
