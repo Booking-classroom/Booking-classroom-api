@@ -130,6 +130,16 @@ export class ReservationService {
     return reservations;
   }
 
+  async findByUser(id: number): Promise<ReservationEntity[]> {
+    const user = await this.userRepository.findOne({ where: { id }});
+    if (!user) {
+      throw new NotFoundException('User not found')
+    }
+
+    const reservations = await this.reservationRepository.find({ where: { user }});
+    return reservations;
+  }
+
   async remove(id: number): Promise<any> {
     await this.findOneById(id);
 
