@@ -22,10 +22,10 @@ export class ReservationEntity extends TimestampEntity {
     @ManyToOne(() => ClassroomEntity, classroom => classroom.id)
     classroom: ClassroomEntity;
 
-    @Column({ type: 'date', nullable: false })
+    @Column({ type: 'timestamp', nullable: false })
     start_datetime: Date;
 
-    @Column({ type: 'date', nullable: false })
+    @Column({ type: 'timestamp', nullable: false })
     end_datetime: Date;
 
     @Column({ type: 'enum', enum: Etat, nullable: false })
