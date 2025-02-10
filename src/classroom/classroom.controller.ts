@@ -9,7 +9,6 @@ import { AdminGuard } from 'src/auth/guards/admin.guard';
 
 @Controller('classroom')
 @UseGuards(AuthGuard)
-@UseGuards(AuthGuard)
 export class ClassroomController {
   constructor(private readonly classroomService: ClassroomService) {}
 

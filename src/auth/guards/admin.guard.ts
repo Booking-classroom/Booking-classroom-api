@@ -27,8 +27,8 @@ export class AdminGuard implements CanActivate {
         secret: process.env.JWT_SECRET,
       });
 
-      if (!payload.isAdmin) {
-        throw new ForbiddenException('Access denied');
+      if (!payload.role.includes('admin')) {
+        throw new ForbiddenException('You are not an admin');
       }
 
       request['user'] = payload;

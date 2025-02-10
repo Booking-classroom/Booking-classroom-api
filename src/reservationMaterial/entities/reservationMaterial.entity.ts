@@ -10,9 +10,9 @@ export class ReservationMaterialEntity extends TimestampEntity {
     id: number;
 
     @ManyToOne(() => ReservationEntity, reservation => reservation.id)
-    reservation: number;
+    reservation: ReservationEntity;
 
     @ManyToOne(() => MaterialEntity, material => material.id)
-    material: number;
+    material: MaterialEntity;
 
 }

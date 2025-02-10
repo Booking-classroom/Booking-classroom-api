@@ -26,6 +26,16 @@ export class ReservationController {
     return this.reservationService.findOneById(+id);
   }
 
+  @Get('classroom/:id')
+  findByClassroom(@Param('id') id:string) {
+    return this.reservationService.findByClassroom(+id)
+  }
+
+  @Get('user/:id')
+  findByUser(@Param('id') id:string) {
+    return this.reservationService.findByUser(+id)
+  }
+
   @ApiBody({ type: UpdateReservationDto })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateReservationDto: UpdateReservationDto) {
