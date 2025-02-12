@@ -92,19 +92,6 @@ export class ReservationMaterialService {
     return reservationMaterial;
   }
 
-  async findOneByName(name: string): Promise<ReservationMaterialEntity> {
-    const reservationMaterial = await this.reservationMaterialRepository
-      .createQueryBuilder('reservationMaterial')
-      .where('reservationMaterial.name = :name', { name })
-      .getOne();
-
-    if (!reservationMaterial) {
-      throw new NotFoundException('ReservationMaterial not found');
-    }
-
-    return reservationMaterial;
-  }
-
   async remove(id: number): Promise<any> {
     await this.findOneById(id);
 

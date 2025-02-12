@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBody } from '@nestjs/swagger';
+import { AdminGuard } from 'src/auth/guards/admin.guard';
 
 @Controller('users')
 export class UserController {
@@ -23,11 +25,13 @@ export class UserController {
   }
 
   @Get()
+  @UseGuards(AdminGuard)
   findAll() {
     return this.userService.findAll();
   }
 
   @Get(':id')
+  @UseGuards(AdminGuard)
   findOne(@Param('id') id: string) {
     return this.userService.findOneById(+id);
   }
@@ -39,11 +43,13 @@ export class UserController {
 
   @ApiBody({ type: UpdateUserDto })
   @Patch(':id')
+  @UseGuards(AdminGuard)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
+  @UseGuards(AdminGuard)
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
   }

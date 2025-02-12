@@ -24,7 +24,7 @@ export class UserService {
 
   findAll(): Promise<UserEntity[]> {
     const users = this.userRepository.find({
-      select: ['id', 'email'],
+      select: ['id', 'email','username','role'],
     });
 
     return users;
@@ -34,7 +34,7 @@ export class UserService {
     const user = await this.userRepository
       .createQueryBuilder('user')
       .where('user.id = :id', { id })
-      .addSelect(['user.id', 'user.email'])
+      .addSelect(['user.id', 'user.email', 'user.username', 'user.role'])
       .getOne();
 
     if (!user) {
@@ -47,12 +47,14 @@ export class UserService {
     const user = await this.userRepository
       .createQueryBuilder('user')
       .where('user.email = :email', { email })
-      .addSelect(['user.id', 'user.email', 'user.password'])
+      .addSelect(['user.id', 'user.email', 'user.password', 'user.username', 'user.role'])
       .getOne();
 
+
     if (!user) {
-      throw new NotFoundException('User not found');
+      return null as any;
     }
+
     return user;
   }
 
