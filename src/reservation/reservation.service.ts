@@ -102,9 +102,10 @@ export class ReservationService {
     return this.findOneById(id);
   }
 
-  findAll(): Promise<ReservationEntity[]> {
-    const tasksList = this.reservationRepository.find();
-    return tasksList;
+  async findAll(): Promise<ReservationEntity[]> {
+   const reservation = await this.reservationRepository.find();
+   console.log('reservation: ', reservation);
+    return reservation;
   }
 
   async findOneById(id: number): Promise<ReservationEntity> {
@@ -126,8 +127,11 @@ export class ReservationService {
       throw new NotFoundException('Classroom not found');
     }
 
-    const reservations = await this.reservationRepository.find({ where: { classroom } });
-    return reservations;
+const reservations = await this.reservationRepository.createQueryBuilder('reservation')
+.where('reservation.classroomId = :classroom', { classroom: id })
+.getMany();
+
+return reservations;
   }
 
   async findByUser(id: number): Promise<ReservationEntity[]> {
