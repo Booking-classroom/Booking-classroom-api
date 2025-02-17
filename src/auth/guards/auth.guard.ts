@@ -17,7 +17,6 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {
-      console.log('no token');
       throw new UnauthorizedException();
     }
     try {
@@ -30,7 +29,6 @@ export class AuthGuard implements CanActivate {
 
       request['user'] = payload;
     } catch {
-      console.log('catch');
       throw new UnauthorizedException();
     }
     return true;  

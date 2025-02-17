@@ -22,7 +22,6 @@ export class AuthService {
     const isPasswordCorrect = await bcrypt.compare(signinDto.password, user.password);  
 
     if (!isPasswordCorrect) {
-      console.log('third');
       throw new UnauthorizedException('Invalid credentials');
     }
     const payload = {

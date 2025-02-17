@@ -31,7 +31,6 @@ export class UserController {
   }
 
   @Get(':id')
-  @UseGuards(AdminGuard)
   findOne(@Param('id') id: string) {
     return this.userService.findOneById(+id);
   }
