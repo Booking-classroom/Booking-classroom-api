@@ -137,7 +137,10 @@ return reservations;
       throw new NotFoundException('User not found')
     }
 
-    const reservations = await this.reservationRepository.find({ where: { user }});
+    const reservations = await this.reservationRepository.createQueryBuilder('reservation')
+      .where('reservation.userId = :user', { user: id })
+      .leftJoinAndSelect('reservation.classroom', 'classroom')
+      .getMany();
     return reservations;
   }
 
@@ -146,5 +149,12 @@ return reservations;
 
     const task = this.reservationRepository.softDelete(id);
     return task;
+  }
+
+  async removeReservationsByClassroomId(classroomId: number): Promise<void> {
+    await this.reservationRepository.createQueryBuilder('reservation')
+      .delete()
+      .where('classroomId = :classroomId', { classroomId })
+      .execute();
   }
 }
