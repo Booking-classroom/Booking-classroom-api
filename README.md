@@ -18,11 +18,11 @@ Il permet la gestion des utilisateurs, des salles, du matériel, ainsi que des c
 git clone https://github.com/Booking-classroom/Booking-classroom-api.git
 cd booking-classroom
 ```
-###2️⃣ **Installer les dépendances**
+### 2️⃣ **Installer les dépendances**
 ```bash
 npm install
 ```
-###3️⃣ **Configurer les variables d'environnement**
+### 3️⃣ **Configurer les variables d'environnement**
 ```bash
 DB_PASSWORD=postgres
 DB_USER=postgres
@@ -30,17 +30,17 @@ DB_NAME=postgres
 JWT_SECRET=fjziaeghjzqOPSFKGSJOSQJSDNGIUFZHQFSBIQZG
 ```
 adapte selon ta base de données
-###4️⃣ **Démarrer le serveur**
+### 4️⃣ **Démarrer le serveur**
 ```bash
 npm run start:dev
 ```
-🛠️ Technologies utilisées
+### 🛠️ Technologies utilisées
 Nest.js avec Express 🚀
 docker avec postgres 🛢️
 JWT pour l'authentification 🔑
 TypeScript pour une meilleure structure ⌨️
 
-📡 Endpoints API
+### 📡 Endpoints API
 
 | Module                 | Méthode | Endpoint                                         | Description |
 |------------------------|---------|-------------------------------------------------|-------------|
