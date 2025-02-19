@@ -4,6 +4,7 @@ import { SigninDto } from './dto/signin.dto';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { access } from 'fs';
 
 @Injectable()
 export class AuthService {
@@ -28,15 +29,24 @@ export class AuthService {
       email: user.email,
       role: user.role,
     };
-    const access_token = this.jwtService.sign(payload);
 
+    const access_token = this.jwtService.sign(payload);
     return { access_token };
   }
 
-  async signup(signupDto: SignupDto) {
+  async signup(signupDto: SignupDto) { 
+
+    if (!signupDto.password) {
+      throw new Error('Password is required');
+    }
+
+    const user = await this.userService.findOneByEmail(signupDto.email);
+    if (user) {
+      throw new Error('User with this email already exists');
+    }
+
     const password = await bcrypt.hash(signupDto.password, 10);
     signupDto.password = password;
-
     return this.userService.create(signupDto);
   }
 }
